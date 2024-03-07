@@ -185,6 +185,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  dart_pusher_channels:
+    dependency: "direct main"
+    description:
+      name: dart_pusher_channels
+      sha256: ffc9c4f9fc1d6ffa5b143633a96ac41270ddc3fce3067aa897d1686569e39f11
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.2"
   dart_style:
     dependency: transitive
     description:
@@ -661,6 +669,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  pinenacl:
+    dependency: transitive
+    description:
+      name: pinenacl
+      sha256: "3a5503637587d635647c93ea9a8fecf48a420cc7deebe6f1fc85c2a5637ab327"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.1"
   platform:
     dependency: transitive
     description:
