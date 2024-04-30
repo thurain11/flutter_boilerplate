@@ -36,29 +36,27 @@ class AppUtils {
 
   static PreferredSize MyAppBar(
       {Widget? leading,
-        List<Widget>? actions,
-        required String? title,
-        bool centerTitle = true,
-        bool autoImplement = true,
-        bool hasBottomBar = false,
-        PreferredSizeWidget? bottom,
-        Color? color,
-        String fontFamily = 'notosan_mm',
-        double fontSize = 16,
-        FontWeight fontWeight = FontWeight.w500,
-        Color textColor = Colors.black54,
-        Color? iconColor = Colors.indigoAccent,
-        Widget? widget}) {
+      List<Widget>? actions,
+      required String? title,
+      bool centerTitle = true,
+      bool autoImplement = true,
+      bool hasBottomBar = false,
+      PreferredSizeWidget? bottom,
+      Color? color,
+      String fontFamily = 'notosan_mm',
+      double fontSize = 16,
+      FontWeight fontWeight = FontWeight.w500,
+      Color textColor = Colors.black54,
+      Color? iconColor = Colors.indigoAccent,
+      Widget? widget}) {
     return PreferredSize(
       preferredSize: Size(double.infinity, (bottom == null ? 50 : 100)),
       child: AppBar(
         surfaceTintColor: Colors.transparent,
 
         backgroundColor: Colors.white,
-        systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: Colors.white,
-            statusBarIconBrightness: Brightness.dark
-        ),
+        systemOverlayStyle:
+            SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark),
         // elevation: 2,
         // shadowColor: Colors.indigo.shade50,
         // shape: RoundedRectangleBorder(
@@ -72,7 +70,8 @@ class AppUtils {
         title: widget ??
             Text(
               title!,
-              style: TextStyle(color: textColor, fontSize: fontSize, fontWeight: fontWeight,fontFamily: fontFamily),
+              style: TextStyle(
+                  color: textColor, fontSize: fontSize, fontWeight: fontWeight, fontFamily: fontFamily),
             ),
         centerTitle: centerTitle,
         actions: actions,
@@ -90,8 +89,7 @@ class AppUtils {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0),
       ),
-      content:
-      Container(
+      content: Container(
         padding: EdgeInsets.all(5),
         child: Text(
           str,
@@ -101,8 +99,6 @@ class AppUtils {
     ));
   }
 
-
-
   static void showSnackChek(String str, {color = Colors.green, textColor = Colors.white, int sec = 7}) {
     rootScaffoldKey.currentState!.showSnackBar(SnackBar(
       duration: Duration(seconds: sec),
@@ -111,8 +107,7 @@ class AppUtils {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0),
       ),
-      content:
-      Container(
+      content: Container(
         padding: EdgeInsets.all(5),
         child: Text(
           str,
@@ -136,10 +131,11 @@ class AppUtils {
 
   //////////////
 
-  static void showToaster(String str, {color = Colors.redAccent, textColor = Colors.black, graviti = ToastGravity.BOTTOM}) {
-    Fluttertoast.showToast(msg: str, backgroundColor: color, gravity: graviti, textColor: textColor, timeInSecForIosWeb: 4);
+  static void showToaster(String str,
+      {color = Colors.redAccent, textColor = Colors.black, graviti = ToastGravity.BOTTOM}) {
+    Fluttertoast.showToast(
+        msg: str, backgroundColor: color, gravity: graviti, textColor: textColor, timeInSecForIosWeb: 4);
   }
-
 
   static void showActionSnackBar(String str, {color = Colors.black, textColor = Colors.white}) {
     rootScaffoldKey.currentState!.showSnackBar(
@@ -169,8 +165,7 @@ class AppUtils {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0),
       ),
-      content:
-      Container(
+      content: Container(
         padding: EdgeInsets.all(5),
         child: Text(
           str,
@@ -219,7 +214,7 @@ class AppUtils {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Colors.green),
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                         onPressed: () {},
                         child: Text(
                           'OK',
@@ -237,7 +232,10 @@ class AppUtils {
         barrierDismissible: false);
   }
 
-  static expireLoginDialog(BuildContext context, {String? message,}) async {
+  static expireLoginDialog(
+    BuildContext context, {
+    String? message,
+  }) async {
     SharedPref.setData(key: SharedPref.token, value: "null");
 
     showDialog(
@@ -265,10 +263,10 @@ class AppUtils {
                   message == null || message == "" || message == "null"
                       ? Text("Please Login Again")
                       : Text(
-                    message!,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
+                          message!,
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          textAlign: TextAlign.center,
+                        ),
                   SizedBox(height: 20),
                   Column(
                     mainAxisSize: MainAxisSize.min,
@@ -300,8 +298,8 @@ class AppUtils {
           if (snapshot.data.chatMessage == MsgState.loading) {
             return loadingWidget == null
                 ? Center(
-              child: LoadingWidget(),
-            )
+                    child: LoadingWidget(),
+                  )
                 : loadingWidget;
           } else {
             return widget;
@@ -365,7 +363,6 @@ class AppUtils {
     }
   }
 
-
   static double getSize(BuildContext context, bool isHeight, double value) {
     double size;
     if (isHeight) {
@@ -391,8 +388,6 @@ class AppUtils {
     analyticsList.removeWhere((type) => type['type'] == data['type']);
     SharedPref.setData(key: SharedPref.analytic_users, value: json.encode(analyticsList));
   }
-
-
 }
 
 //0975688555

@@ -9,8 +9,6 @@ import '../../core/utils/app_utils.dart';
 import '../../global.dart';
 import '../../widgets/loading_widget.dart';
 
-
-
 typedef dynamic OnPressed();
 typedef Future<Map<String, dynamic>?>? onAsyncPressed();
 
@@ -18,7 +16,6 @@ typedef void SuccessFuncMethod(ResponseOb ob);
 typedef void ValidFuncMethod(ResponseOb ob);
 typedef void MoreFuncMethod(ResponseOb ob);
 typedef void StateFuncMethod(ResponseOb ob);
-
 
 class RequestButton extends StatefulWidget {
   String? url; //request url
@@ -53,35 +50,34 @@ class RequestButton extends StatefulWidget {
 
   RequestButton(
       {required this.url,
-        required this.text,
-        this.scaffoldState,
-        required this.successFunc,
-        this.stateFunc,
-        this.moreFunc,
-        this.errorFunc,
-        this.isAlreadyFormData = false,
-        this.showLoading = true,
-        this.onPress,
-        this.onAsyncPress,
-        this.changeFormData = false,
-        this.textColor = Colors.white,
-        this.color =  Colors.blueAccent,
-        this.padding = const EdgeInsets.all(10),
-        this.isShowDialog = false,
-        this.textStyle,
-        this.align,
-        this.validFunc,
-        this.requestType = ReqType.Post,
-        this.isDisable = false,
-        this.borderRadius = 5,
-        this.bRadius,
-        this.showErrSnack = true,
-        this.icon,
-        this.loadingWidget,
-        this.borderColor = Colors.transparent,
-        this.borderWidth = 0.0,
-        this.tempId=''
-      });
+      required this.text,
+      this.scaffoldState,
+      required this.successFunc,
+      this.stateFunc,
+      this.moreFunc,
+      this.errorFunc,
+      this.isAlreadyFormData = false,
+      this.showLoading = true,
+      this.onPress,
+      this.onAsyncPress,
+      this.changeFormData = false,
+      this.textColor = Colors.white,
+      this.color = Colors.blueAccent,
+      this.padding = const EdgeInsets.all(10),
+      this.isShowDialog = false,
+      this.textStyle,
+      this.align,
+      this.validFunc,
+      this.requestType = ReqType.Post,
+      this.isDisable = false,
+      this.borderRadius = 5,
+      this.bRadius,
+      this.showErrSnack = true,
+      this.icon,
+      this.loadingWidget,
+      this.borderColor = Colors.transparent,
+      this.borderWidth = 0.0,
+      this.tempId = ''});
 
   @override
   _RequestButtonState createState() => _RequestButtonState();
@@ -97,7 +93,6 @@ class _RequestButtonState extends State<RequestButton> {
     super.initState();
 
     _bloc.getRequestStream().listen((ResponseOb resp) {
-
       if (widget.stateFunc != null) {
         widget.stateFunc!(resp);
       }
@@ -126,7 +121,6 @@ class _RequestButtonState extends State<RequestButton> {
             widget.moreFunc!(resp);
           } else if (widget.moreFunc == null) {
             Map<String, dynamic> moreMap = resp.data;
-
           }
         } else {
           widget.errorFunc!();
@@ -136,7 +130,6 @@ class _RequestButtonState extends State<RequestButton> {
       if (resp.message == MsgState.error) {
         if (resp.errState == ErrState.no_login) {
           //&& widget.errorFunc == null
-
         }
 
         if (widget.isShowDialog) {
@@ -214,7 +207,7 @@ class _RequestButtonState extends State<RequestButton> {
         //     return mainWidget();
         //   }
         // } else {
-          return mainWidget();
+        return mainWidget();
         // }
       },
     );
@@ -225,78 +218,70 @@ class _RequestButtonState extends State<RequestButton> {
       style: TextButton.styleFrom(
         shape: RoundedRectangleBorder(
             borderRadius:
-            widget.bRadius == null ? BorderRadius.circular(widget.borderRadius) : widget.bRadius!,
+                widget.bRadius == null ? BorderRadius.circular(widget.borderRadius) : widget.bRadius!,
             side: BorderSide(color: widget.borderColor, width: widget.borderWidth)),
         padding: widget.padding,
         backgroundColor: widget.color,
-        primary: widget.textColor,
+
         // disabledColor: Colors.grey,
       ),
       onPressed: widget.isDisable
           ? null
           : () async {
-        if (widget.onPress != null) {
+              if (widget.onPress != null) {
+                // if (widget.onPress!() != null) {
 
-          // if (widget.onPress!() != null) {
-
-          checkDialog();
-          if (widget.isAlreadyFormData) {
-            _bloc.postData(widget.url,
-                fd: widget.onPress!(), requestType: widget.requestType, tempId: widget.tempId);
-          } else {
-            if (!widget.changeFormData) {
-              _bloc.postData(widget.url,
-                  map: await widget.onPress!(),
-                  requestType: widget.requestType,
-                  tempId: widget.tempId);
-            } else {
-              FormData fd = FormData.fromMap(widget.onPress!());
-              _bloc.postData(widget.url,
-                  fd: fd, requestType: widget.requestType,
-                  tempId: widget.tempId);
-            }
-          }
-          // }
-        } else {
-          await widget.onAsyncPress!()!.then((a) {
-            if (a != null) {
-              checkDialog();
-              if (widget.requestType == ReqType.Get) {
-                _bloc.postData(widget.url,
-                    map: a, requestType: widget.requestType,
-                    tempId: widget.tempId);
+                checkDialog();
+                if (widget.isAlreadyFormData) {
+                  _bloc.postData(widget.url,
+                      fd: widget.onPress!(), requestType: widget.requestType, tempId: widget.tempId);
+                } else {
+                  if (!widget.changeFormData) {
+                    _bloc.postData(widget.url,
+                        map: await widget.onPress!(), requestType: widget.requestType, tempId: widget.tempId);
+                  } else {
+                    FormData fd = FormData.fromMap(widget.onPress!());
+                    _bloc.postData(widget.url,
+                        fd: fd, requestType: widget.requestType, tempId: widget.tempId);
+                  }
+                }
+                // }
               } else {
-                FormData fd = FormData.fromMap(a);
-                _bloc.postData(widget.url,
-                    fd: fd, requestType: widget.requestType,
-                    tempId: widget.tempId);
+                await widget.onAsyncPress!()!.then((a) {
+                  if (a != null) {
+                    checkDialog();
+                    if (widget.requestType == ReqType.Get) {
+                      _bloc.postData(widget.url,
+                          map: a, requestType: widget.requestType, tempId: widget.tempId);
+                    } else {
+                      FormData fd = FormData.fromMap(a);
+                      _bloc.postData(widget.url,
+                          fd: fd, requestType: widget.requestType, tempId: widget.tempId);
+                    }
+                  }
+                });
               }
-            }
-          });
-        }
-      },
+            },
       child: widget.icon != null
-          ?
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          widget.icon!,
-          SizedBox(
-            width: 6,
-          ),
-          Flexible(
-              child: Text(
-                widget.text!,
-                style: widget.textStyle,
-                textAlign: TextAlign.center,
-              )),
-        ],
-      )
-          :
-      Center(
-        child: Text(widget.text!, style: widget.textStyle),
-      ),
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                widget.icon!,
+                SizedBox(
+                  width: 6,
+                ),
+                Flexible(
+                    child: Text(
+                  widget.text!,
+                  style: widget.textStyle,
+                  textAlign: TextAlign.center,
+                )),
+              ],
+            )
+          : Center(
+              child: Text(widget.text!, style: widget.textStyle),
+            ),
     );
   }
 
