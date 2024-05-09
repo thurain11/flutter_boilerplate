@@ -1,4 +1,4 @@
-package com.example.flutter_setup
+package com.thurainhein.setup
 
 import io.flutter.embedding.android.FlutterActivity
 

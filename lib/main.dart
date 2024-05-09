@@ -5,58 +5,72 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_setup/pages/home/home.dart';
-import 'package:flutter_setup/layers/data/respositories/post_repo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_setup/test_flutter_bloc/counter_cubit.dart';
+import 'package:provider/provider.dart';
 
 import 'core/network/http_overwrite.dart';
-import 'core/routes/routes.dart';
+import 'core/providers/theme_provider.dart';
+import 'core/theme/theme.dart';
+import 'pages/home/home.dart';
 
 GlobalKey<ScaffoldMessengerState> rootScaffoldKey = GlobalKey<ScaffoldMessengerState>();
 final navigatorKey = new GlobalKey<NavigatorState>();
 
-
 void main() async {
-
-  PostRepo repo = PostRepo();
-  repo.getPosts();
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   HttpOverrides.global = new MyHttpOverrides();
 
-  runApp(
-    EasyLocalization(child: MyApp(),
-      supportedLocales: [
+  runApp(EasyLocalization(
+    child: MyApp(),
+    supportedLocales: [
       Locale('en', 'US'),
       Locale('my', 'MM'),
     ],
-      path: "languages",
-      fallbackLocale: Locale('en', 'US'),
-      saveLocale: true,)
-  );
+    path: "languages",
+    fallbackLocale: Locale('en', 'US'),
+    saveLocale: true,
+  ));
 }
-
 
 /// The main app.
 class MyApp extends StatelessWidget {
-  /// Constructs a [MyApp]
-  const MyApp({super.key});
+  final _buildTheme = BuildThemeData();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      scaffoldMessengerKey: rootScaffoldKey,
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Setup',
-      home: HomePage(),
-      // routerConfig: router,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (BuildContext context, ThemeProvider tm, Widget? child) {
+          return MaterialApp(
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            themeMode: tm.themeMode,
+            scaffoldMessengerKey: rootScaffoldKey,
+            debugShowCheckedModeBanner: false,
+            theme: FlexThemeData.light(scheme: FlexScheme.brandBlue),
+            darkTheme: FlexThemeData.dark(scheme: FlexScheme.brandBlue),
+            title: 'Flutter Setup',
+            home: MultiProvider(
+              providers: [
+                BlocProvider<CounterCubit>(
+                  create: (BuildContext context) {
+                    return CounterCubit();
+                  },
+                )
+              ],
+              child: HomePage(),
+            ),
+          );
+        },
+      ),
     );
   }
 }
-
-
-
-
